@@ -1,30 +1,29 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { Component } from 'react'
 
-const Details = (props) => {
-    const { Username, Email, City, Phone } =
-        (props.location && props.location.state) || {};
-    return (
-        <div>
-            <NavLink to="/" activeClassName="active">
-                Go Back
-      </NavLink>
-            <div className="form-details">
-                <div>
-                    <strong>Username:</strong> {Username}
-                </div>
-                <div>
-                    <strong>Email:</strong> {Email}
-                </div>
-                <div>
-                    <strong>City:</strong> {City}
-                </div>
-                <div>
-                    <strong>Phone:</strong> {Phone}
-                </div>
+class RecentPosts extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            uName: ''
+        }
+
+    }
+    componentDidMount() {
+        this.setState({
+            uName: document.getElementById("posts").name
+        })
+
+
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>Recent Posts of : {this.state.uName}</h1>
             </div>
-        </div>
-    );
-};
+        )
+    }
+}
 
-export default Details;
+export default RecentPosts

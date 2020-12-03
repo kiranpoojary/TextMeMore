@@ -2,30 +2,31 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import logo from '../images/TextMeMore_Logo.png'
 import 'bootstrap/dist/css/bootstrap.css'
+import RecentPosts from './RecentPosts'
+import UserProfile from './Profile'
 import Chats from './AllChats'
-import Post from './RecentPosts'
-import Login from './Login'
+import Notif from './Notifications'
+import Random from './RandomChat'
 
 
 
 class Navbar extends Component {
     constructor(props) {
         super(props)
-
         this.state = {
             activePosts: 'nav-link ',
             activeChats: 'nav-link ',
             activeNotification: 'nav-link ',
-            activeLogin: 'nav-link active',
-
+            activeLogin: 'nav-link ',
+            activeRandom: 'nav-link',
+            UId: this.props.UId
         }
-    }
 
+    }
 
 
     render() {
         return (
-
             <Router>
                 <div className="container">
                     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -36,26 +37,30 @@ class Navbar extends Component {
                         <div className="collpse nav-collpse">
                             <ul className="navbar-nav mr-auto">
                                 <li className="navbar-item">
-                                    <Link to="/user/posts/:uid" className={this.state.activePosts}>Posts</Link>
+                                    <Link to="/posts" id="posts" name={this.state.UId} className={this.state.activePosts}>Posts</Link>
                                 </li>
                                 <li className="navbar-item">
-                                    <Link to="/chats" className={this.state.activeChats}>Chats</Link>
+                                    <Link to="/chats" id="chats" name={this.state.UId} className={this.state.activeChats}>Chats</Link>
                                 </li>
                                 <li className="navbar-item align-right">
-                                    <Link to="/notifications" className={this.state.activeNotification}>Notifications</Link>
+                                    <Link to="/notifications" id="notif" name={this.state.UId} className={this.state.activeNotification}>Notifications</Link>
                                 </li>
                                 <li className="navbar-item align-right">
-                                    <Link to="/" className={this.state.activeLogin}>Login{this.state.uid}</Link>
+                                    <Link to="/random" id="profile" name={this.state.UId} className={this.state.activeRandom}>Random</Link>
+                                </li>
+                                <li className="navbar-item align-right">
+                                    <Link to="/profile" id="profile" name={this.state.UId} className={this.state.activeLogin}>{this.state.UId}</Link>
                                 </li>
                             </ul>
                         </div>
                     </nav>
-                    <Route path="/" exact component={Login} />
-                    <Route path="/user/posts/:id" exact component={Post} />
-                    <Route path="/chats" exact component={Chats} />
+                    <Route path={"/posts"} exact component={RecentPosts} />
+                    <Route path={"/profile"} exact component={UserProfile} />
+                    <Route path={"/chats"} exact component={Chats} />
+                    <Route path={"/random"} exact component={Random} />
+                    <Route path={"/notifications"} exact component={Notif} />
                 </div>
             </Router>
-
         )
     }
 }

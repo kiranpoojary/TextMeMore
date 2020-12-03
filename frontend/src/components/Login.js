@@ -29,8 +29,6 @@ class Login extends Component {
         })
     }
 
-
-
     onSubmit(e) {
         e.preventDefault()
         const userCred = {
@@ -39,21 +37,18 @@ class Login extends Component {
         }
 
         //console.log(userCred);
-        axios.post("http://localhost:4000/auth", userCred)
+        axios.post("http://192.168.1.10:4000/auth", userCred)
             .then(res => {
-
                 if (res.data.valid) {
                     let state = {
-                        Username: "kiranpoojary48",
-                        Email: "k@nokia.com",
-                        City: "Udupi",
-                        Phone: 7975858891
+                        userId: this.state.userId
                     }
                     console.log(state);
                     //this.props.history.push('/user/posts/' + this.state.userId)
                     this.props.history.push({
-                        pathname: '/user/posts/' + this.state.userId,
-                        //search: '?id=101',
+                        pathname: `/posts`,
+                        // search: this.state.userId,
+                        //search: '?uid=' + this.state.userId,
                         state
                     })
                 } else {
@@ -64,9 +59,7 @@ class Login extends Component {
             .catch(err => {
                 console.log(err);
             })
-
     }
-
     render() {
         return (
             <div className="container">
@@ -74,11 +67,9 @@ class Login extends Component {
                     <form onSubmit={this.onSubmit}>
                         <div className="p-2">
                             <input type="text" onChange={this.onIdChange} value={this.state.userId} className="form-control col-md-4 " placeholder="UserID" />
-
                         </div>
                         <div className="p-2">
                             <input type="password" onChange={this.onPasswordChange} value={this.state.password} className="form-control col-md-4 " placeholder="password" />
-
                         </div>
                         <div className="p-2">
                             <input type="submit" className="btn btn-primary" value="Log In" />
@@ -89,6 +80,7 @@ class Login extends Component {
                     </div>
                 </div>
             </div>
+
         )
     }
 }

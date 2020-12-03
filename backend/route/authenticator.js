@@ -10,15 +10,14 @@ router.get("/", (req, res) => {
 })
 
 router.post("/auth", (req, res) => {
-
     var userID = req.body.userId;
     var password = req.body.password;
     userModel.countDocuments({ userId: userID, password: password }, function (err, userCount) {
         if (!err) {
             if (userCount == 1) {
-                res.status(200).json({ 'valid': true })
+                res.status(200).json({ 'valid': userCount })
             } else {
-                res.status(200).json({ 'valid': false })
+                res.status(200).json({ 'valid': userCount })
             }
         } else {
             res.status(400).json({ 'valid': false })
