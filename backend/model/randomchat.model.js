@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
 
 const randomChatSchema = new mongoose.Schema({
-    msg: String,
-    sender: String
+	msg: String,
+	sender: String,
+	textTime: String
 })
 
 

@@ -30,6 +30,7 @@ class Login extends Component {
     }
 
     onSubmit(e) {
+
         e.preventDefault()
         const userCred = {
             userId: this.state.userId,
@@ -44,6 +45,7 @@ class Login extends Component {
                         userId: this.state.userId
                     }
                     console.log(state);
+
                     //this.props.history.push('/user/posts/' + this.state.userId)
                     this.props.history.push({
                         pathname: `/posts`,
@@ -51,6 +53,7 @@ class Login extends Component {
                         //search: '?uid=' + this.state.userId,
                         state
                     })
+
                 } else {
                     alert('Invalid UserId/Password')
                     this.props.history.push('/')

@@ -6,7 +6,7 @@ let ali = "col-md-8 offset-md-2"
 export class RandomChat extends Component {
     constructor(props) {
         super(props)
-        this.msgInput = React.createRef();
+        this.msgInput = React.createRef()
         this.onSubmit = this.onSubmit.bind(this)
         this.recentChats = this.recentChats.bind(this)
         this.inputText = this.inputText.bind(this)
@@ -23,16 +23,17 @@ export class RandomChat extends Component {
     componentDidMount() {
         axios.get("http://192.168.1.10:4000/random")
             .then(response => {
+
                 this.setState({
-                    sender: document.getElementById("chats").name,
+                    userId: document.getElementById("chats").name,
                     chats: response.data
 
                 })
+
             })
             .catch((err) => {
                 console.log(err);
             })
-        console.log("mount");
 
     }
 
@@ -45,7 +46,6 @@ export class RandomChat extends Component {
                     chats: response.data
                 })
 
-                this.msgInput.current.focus()
 
             })
             .catch((err) => {
@@ -56,31 +56,37 @@ export class RandomChat extends Component {
     }
 
     componentWillUnmount() {
-        this._isMounted = false;
-        console.log("unmount");
+
+        this.setState = (state, callback) => {
+            return;
+        };
     }
 
 
 
     recentChats() {
         return this.state.chats.map((currentChat, i) => {
-            if (currentChat.sender === "ki") {
-                ali = "col-md-8 offset-md-6"
+            if (currentChat.sender === this.state.userId) {
+                ali = "col-md-8 offset-md-6 float-right"
                 return (
-                    <div className={ali}>
-                        <h5 style={{ color: currentChat.color }} key={i}>{currentChat.msg}</h5>
+                    <div className={ali} key={i} style={{ paddingRight: '0%' }}>
+                        <h5 style={{ color: currentChat.color, padding: '2%', background: "darkblue", borderRadius: '10px', width: '95%', paddingLeft: '8px' }} key={i}>{currentChat.msg}<label className="float-right" style={{ fontSize: '40%', paddingRight: '4%' }}>
+                            {currentChat.textTiming}
+                        </label></h5>
+
                     </div>
                 )
             } else {
-                ali = "col-md-8 offset-md-2"
+                ali = "col-md-8 offset-md-2 float-left"
                 return (
-                    <div className={ali}>
-                        <h5 style={{ color: currentChat.color }} key={i}>{currentChat.msg}</h5>
+                    <div className={ali} key={i} style={{ paddingLeft: '0%' }}>
+                        <h5 style={{ color: currentChat.color, padding: '2%', background: "#010101", borderRadius: '10px', width: '75%', paddingLeft: '8px' }} key={i}>{currentChat.msg}<label className="float-right" style={{ fontSize: '40%' }}>
+                            {currentChat.textTiming}
+                        </label></h5>
+
                     </div>
                 )
             }
-
-
         })
     }
 
@@ -94,13 +100,12 @@ export class RandomChat extends Component {
         e.preventDefault()
         const userText = {
             msg: this.state.msg,
-            sender: this.state.sender
+            sender: this.state.userId
         }
 
 
         axios.post("http://192.168.1.10:4000/random", userText)
             .then(res => {
-                console.log(res.data);
                 if (res.data.sent) {
                     // let state = {
                     //     userId: this.state.userId
@@ -123,6 +128,7 @@ export class RandomChat extends Component {
             .catch((err) => {
                 console.log(err);
             })
+        this.msgInput.current.focus()
     }
 
 
@@ -130,6 +136,7 @@ export class RandomChat extends Component {
         return (
             <div className="col">
                 <div className="col-md-6 offset-md-2" style={{ background: "gray" }}>
+                    <br />
 
                     {
                         this.recentChats()
@@ -140,12 +147,15 @@ export class RandomChat extends Component {
                     {/* {Object.keys(this.state.chats).map(i => document.writeln((this.state.chats[i])))} */}
                     <form onSubmit={this.onSubmit}>
                         <div className="col-md-8 offset-md-3">
-                            <input type="text" value={this.state.msg} ref={this.msgInput} placeholder="Type Message" required autoComplete="off" name="ipMsg" onChange={this.inputText} />
+                            <input type="text" value={this.state.msg} onChange={this.inputText} ref={this.msgInput} placeholder="Type Message" required autoComplete="off" name="ipMsg" />
                             <input type="submit" value="Send" />
+                            {/* onChange={() => this.inputText} */}
                         </div>
+                        <br />
                     </form>
                 </div>
-            </div>
+
+            </div >
 
         );
     }

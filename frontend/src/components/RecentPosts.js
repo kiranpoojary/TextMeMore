@@ -13,8 +13,6 @@ class RecentPosts extends Component {
         this.setState({
             uName: document.getElementById("posts").name
         })
-
-
     }
 
     render() {
