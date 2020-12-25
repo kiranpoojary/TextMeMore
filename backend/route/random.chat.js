@@ -3,16 +3,15 @@ const mongoose = require('mongoose')
 const app = express()
 const cors = require('cors')
 app.use(cors());
-//const { response } = require('express')
 const router = express.Router()
 const randomChat = require('../model/randomChat.model')
-//const randomModel = new mongoose.model('random_chats')
 var jdata = []
 
 router.get("/", (req, res) => {
 
     randomChat.find((err, data) => {
         if (!err) {
+
             jdata = []
             jdata.push({ "msg": data[7].msg, "sender": data[7].sender, "textTiming": data[7].textTime, "color": "chartreuse" })
             jdata.push({ "msg": data[6].msg, "sender": data[6].sender, "textTiming": data[6].textTime, "color": "lightseagreen" })
@@ -33,6 +32,7 @@ router.get("/", (req, res) => {
 })
 
 router.post("/", (req, res) => {
+
     var time = new Date();
     let textTimings = time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
 
@@ -44,7 +44,17 @@ router.post("/", (req, res) => {
     let rchats = new randomChat(userText)
     rchats.save((err, data) => {
         if (!err) {
-            res.status(200).json({ "sent": true })
+            randomChat.find((err, data) => {
+                let dltID = data[0]._id
+                randomChat.deleteOne({ _id: dltID }, (err, doc) => {
+                    if (!err) {
+                        res.status(200).json({ "sent": true })
+                    } else {
+                        res.status(200).json({ "sent": true })
+                    }
+                })
+            })
+
         } else {
             res.status(200).json({ "sent": false })
         }

@@ -5,6 +5,7 @@ const app = express()
 const AuthRoute = require('./route/authenticator')
 const ChatList = require('./route/chat.router')
 const Random = require('./route/random.chat')
+const Search = require('./route/search.router')
 require('./model/connection')
 
 
@@ -13,8 +14,10 @@ app.use(bodyParser.json())
 
 app.use("/", AuthRoute)
 app.use("/auth", AuthRoute)
+app.use("/register", AuthRoute)
 app.use("/chatList", ChatList)
 app.use("/random", Random)
+app.use("/searchUser", Search)
 
 app.listen("4000", (err) => {
     if (!err) {

@@ -6,8 +6,37 @@ let userModel = require('../model/users')
 app.use(cors());
 
 router.get("/", (req, res) => {
-    res.send("Okay Ji")
+    console.log("lolo");
+    res.send("Mongoose Database server running.....")
 })
+
+router.post("/register", (req, res) => {
+    let userName = req.body.inputName
+    let userID = req.body.inputUserId
+    let password = req.body.inputPassword
+    let email = req.body.inputEmail
+    let mob = req.body.inputMobile
+
+    let userInfo = {
+        userName: userName,
+        userId: userID,
+        password: password,
+        email: email,
+        mobile: mob
+    }
+
+    var userObj = new userModel(userInfo)
+
+    userObj.save((err, data) => {
+        if (!err) {
+            res.status(200).json({ registered: true })
+        } else {
+            res.status(500).json({ registered: false })
+        }
+    })
+
+})
+
 
 router.post("/auth", (req, res) => {
     var userID = req.body.userId;
@@ -15,12 +44,12 @@ router.post("/auth", (req, res) => {
     userModel.countDocuments({ userId: userID, password: password }, function (err, userCount) {
         if (!err) {
             if (userCount == 1) {
-                res.status(200).json({ 'valid': userCount })
+                res.status(200).json({ 'valid': true })
             } else {
-                res.status(200).json({ 'valid': userCount })
+                res.status(200).json({ 'valid': false, })
             }
         } else {
-            res.status(400).json({ 'valid': false })
+            res.status(400).json({ 'valid': false, "error": err })
         }
     })
 

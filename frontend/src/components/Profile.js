@@ -10,6 +10,7 @@ export class Profile extends Component {
         }
     }
 
+
     componentDidMount() {
         this.setState({
             uName: document.getElementById("profile").name
@@ -19,11 +20,15 @@ export class Profile extends Component {
     }
 
 
+
+
     render() {
         return (
-            <div>
-                <h3>User Profile : {this.state.uName}</h3>
-            </div>
+
+            <h3>User Profile : {this.state.uName}</h3>
+
+
+
         )
     }
 }
