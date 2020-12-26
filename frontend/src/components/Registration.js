@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import logo from '../images/TextMeMore_Logo.png'
+
 
 class Registration extends Component {
     constructor(props) {
@@ -84,42 +84,39 @@ class Registration extends Component {
 
     render() {
         return (
-            <div className="card col-md-5">
-                <a className="navbar-brand" href="https://www.google.com/search?sxsrf=ALeKk038rcSbyjRvEF5eDDfQ3F5xupu91w%3A1604666588529&source=hp&ei=3ESlX7aTHpWW4-EPlOmA0AU&q=react&oq=react&gs_lcp=CgZwc3ktYWIQAzIECCMQJzIECCMQJzIECCMQJzIICAAQyQMQkQIyBQgAEJECMgQIABBDMgcIABCxAxBDMgQIABBDMgQIABBDMgQIABBDOgcIIxDqAhAnOg0ILhDHARCjAhDqAhAnOgIILjoFCC4QsQM6AggAOggIABCxAxCDAToECC4QQzoHCAAQyQMQQ1DOWVizZWC5aWgBcAB4AIAB3gKIAd0IkgEHMC4yLjIuMZgBAKABAaoBB2d3cy13aXqwAQo&sclient=psy-ab&ved=0ahUKEwi28fXv-O3sAhUVyzgGHZQ0AFoQ4dUDCAc&uact=5" target="_blank" rel="noopener noreferrer">
-                    <img src={logo} width="30" height="30" alt="Img not found" /></a>
-                <h2 style={{ color: 'hotpink' }}>TextMeMore</h2>
-                <div className="cd-inline-flex p-2col-md-4">
-                    <form onSubmit={this.submitData}>
-                        <div className="form-group">
-                            <input type="text" placeholder="Full Name" id="fn" className="form-control"></input>
-                        </div>
-                        <div className="form-group">
-                            <input type="text" onChange={this.changeUserID} className="form-control" placeholder="UserId(Only Letters andNumbers)" required />
-                            <label style={{ color: 'red', display: 'none' }}>UserID Not Available</label>
-                        </div>
-                        <div className="form-group">
-                            <input type="text" onChange={this.changePassword} placeholder="Password" className="form-control"></input>
-                        </div>
-                        <div className="form-group">
-                            <input type="text" onChange={this.changeConfirm} placeholder="Re-type password" className="form-control"></input>
-                            <label style={{ color: 'red', display: 'none' }}>Password Mismatch</label>
-                        </div>
-                        <div className="form-group">
-                            <input type="text" onChange={this.changeEmail} placeholder="Email ID" className="form-control"></input>
-                        </div>
-                        <div className="form-group">
-                            <input type="text" onChange={this.changeMobile} placeholder="Mobile" className="form-control"></input>
-                        </div>
-                        {/* pattern="[6789][0-9]{9}" */}
-                        <div className="form-group">
-                            <input type="file" placeholder="Picture" className="form-control"></input>
-                        </div>
-                        <div className="form-group">
-                            <button type="submit">Submit</button>
-                        </div>
-                    </form>
-                </div>
+            <div>
+                <h2 style={{ color: 'hotpink' }}>Registration</h2>
+                <form onSubmit={this.submitData}>
+                    <div className="form-group">
+                        <input type="text" placeholder="Full Name" id="fn" className="form-control"></input>
+                    </div>
+                    <div className="form-group">
+                        <input type="text" onChange={this.changeUserID} className="form-control" placeholder="UserId(Only Letters andNumbers)" required />
+                        <label style={{ color: 'red', display: 'none' }}>UserID Not Available</label>
+                    </div>
+                    <div className="form-group">
+                        <input type="text" onChange={this.changePassword} placeholder="Password" className="form-control"></input>
+                    </div>
+                    <div className="form-group">
+                        <input type="text" onChange={this.changeConfirm} placeholder="Re-type password" className="form-control"></input>
+                        <label style={{ color: 'red', display: 'none' }}>Password Mismatch</label>
+                    </div>
+                    <div className="form-group">
+                        <input type="text" onChange={this.changeEmail} placeholder="Email ID" className="form-control"></input>
+                    </div>
+                    <div className="form-group">
+                        <input type="text" onChange={this.changeMobile} placeholder="Mobile" className="form-control"></input>
+                    </div>
+                    {/* pattern="[6789][0-9]{9}" */}
+                    <div className="form-group">
+                        <input type="file" placeholder="Picture" className="form-control"></input>
+                    </div>
+                    <div className="form-group">
+                        <button type="submit" className="form-control btn btn-primary">Submit</button>
+                    </div>
+                </form>
             </div>
+
         )
     }
 }

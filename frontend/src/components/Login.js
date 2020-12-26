@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import 'bootstrap/dist/css/bootstrap.css'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import Reg from './Registration'
-import Forgot from './ForgotPassword'
+import { BrowserRouter as Router } from 'react-router-dom'
+
 import axios from 'axios'
 require("../pages/confidentialDataStore")
 
@@ -76,28 +74,26 @@ class Login extends Component {
     render() {
         return (
             <Router>
-                <div className="container">
-                    <div id="formContent" className="p-4">
-                        <form onSubmit={this.onSubmit}>
-                            <div className="p-2">
-                                <input type="text" ref={this.userIdRef} onChange={this.onIdChange} value={this.state.userId} className="form-control col-md-4 " placeholder="UserID" />
-                            </div>
-                            <div className="p-2">
-                                <input type="password" onChange={this.onPasswordChange} value={this.state.password} className="form-control col-md-4 " placeholder="password" />
-                            </div>
-                            <div className="p-2">
-                                <input type="submit" className="btn btn-primary" value="Log In" />
-                            </div>
-                        </form>
-                        <div className="p-2">
-                            <Link to="/register" id="chats" >Register Now</Link>
-                            <Link to="/forgot" id="chats" >Forgot Password</Link>
+                <div >
+                    <h2 style={{ color: 'hotpink' }}>Login</h2>
+                    <form onSubmit={this.onSubmit}>
+                        <div className="form-group ">
+                            <input type="text" className=" form-control " ref={this.userIdRef} onChange={this.onIdChange} value={this.state.userId} placeholder="UserID" />
                         </div>
-                    </div>
+                        <div className="form-group">
+                            <input type="password" className="form-control " onChange={this.onPasswordChange} value={this.state.password} placeholder="password" />
+                        </div>
+                        <div className="form-group">
+                            <input type="submit" className="form-control btn btn-primary" value="Log In" />
+                        </div>
+                    </form>
+
                 </div>
 
-                <Route path="/register" exact component={Reg}></Route>
-                <Route path="/forgot" exact component={Forgot}></Route>
+
+
+
+
             </Router>
 
         )
