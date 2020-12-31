@@ -17,18 +17,6 @@ router.get("/", (req, res) => {
         }
     }).sort({ 'chats._id': -1 }).slice('chats', -7)
 
-
-
-    // const myName = req.query.logedUserId
-    // chatListModel.find({ $or: [{ chatMember1: myName }, { chatMember2: myName }] }, (err, data) => {
-    //     if (!err) {
-    //         res.status(200).json(data)
-    //     } else {
-    //         res.status(500).json({ "error": err })
-    //     }
-    // }).sort({ 'chats._id': -1 }).slice('chats', -7)
-
-
 })
 
 

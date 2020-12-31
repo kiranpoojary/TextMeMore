@@ -16,13 +16,16 @@ router.post("/register", (req, res) => {
     let password = req.body.inputPassword
     let email = req.body.inputEmail
     let mob = req.body.inputMobile
+    let loged = false
 
     let userInfo = {
         userName: userName,
         userId: userID,
         password: password,
         email: email,
-        mobile: mob
+        mobile: mob,
+        public: true,
+        logedIn: loged
     }
 
     var userObj = new userModel(userInfo)
@@ -52,7 +55,6 @@ router.post("/auth", (req, res) => {
             res.status(400).json({ 'valid': false, "error": err })
         }
     })
-
 })
 
 module.exports = router

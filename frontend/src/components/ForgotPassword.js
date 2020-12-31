@@ -8,7 +8,7 @@ function ForgotPassword() {
 
                                     <form >
                                                 <div className="form-group">
-                                                            <input type="text" placeholder="Registered Email" id="fn" className="form-control"></input>
+                                                            <input type="text" placeholder="Registered Email" id="emailForgot" className="form-control"></input>
                                                 </div>
 
                                                 <div className="form-group">

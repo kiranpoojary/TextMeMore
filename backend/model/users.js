@@ -16,7 +16,22 @@ const usersSchema = new Schema({
     },
     mobile: {
         type: String
-    }
+    },
+    public: {
+        type: Boolean
+    },
+    logedIn: {
+        type: Boolean
+    },
+    friends: [{
+        userId: String,
+        followSent: Boolean,
+        followAccepted: Boolean,
+        followbackSent: Boolean,
+        followbackAccepted: Boolean,
+        inchats: Boolean
+    }]
+
 })
 
 module.exports = mongoose.model('users', usersSchema)

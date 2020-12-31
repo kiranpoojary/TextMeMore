@@ -13,6 +13,7 @@ class FindFriends extends Component {
         this.selectUser = this.selectUser.bind(this)
         this.showMoreVisiblity = this.showMoreVisiblity.bind(this)
         this.sayHi = this.sayHi.bind(this)
+        this.sendRequest = this.sendRequest.bind(this)
 
         this.state = {
             userId: '',
@@ -61,8 +62,6 @@ class FindFriends extends Component {
             return;
         };
     }
-
-
 
     showMore() {
         this.setState({
@@ -121,9 +120,6 @@ class FindFriends extends Component {
                 if (res.data.sent) {
                     this.props.history.push({
                         pathname: `/chats`,
-                        // search: this.state.userId,
-                        //search: '?uid=' + this.state.userId,
-                        //state
                     })
                 } else {
                     alert("Message sending failed!..")
@@ -138,7 +134,7 @@ class FindFriends extends Component {
 
 
     showUsers() {
-        if (this.state.userLimit !== 1) {
+        if (this.state.userLimit !== 1) {    //if search text
             return this.state.users.map((user, i) => {
                 return (
                     <div className="active" key={i} style={{ marginTop: '20px', marginLeft: '1%', borderRadius: '50px', height: '17%' }}>
@@ -156,7 +152,44 @@ class FindFriends extends Component {
                 )
             })
         } else {
-            return this.state.users.map((user, i) => {
+            var operation = "Follow"
+            var mutual = ""
+            if (Object.keys(this.state.users[0].friends).length > 0) {
+                this.state.users[0].friends.map((fr, i) => {
+                    if (fr.userId === this.state.userId) {
+                        if (fr.followSent) {
+                            operation = "Accept"
+                            if (fr.followAccepted) {
+                                operation = "Follow Back"
+                                if (fr.followbackSent) {
+                                    operation = "Requested"
+                                    if (fr.followbackAccepted) {
+                                        operation = "Following"
+                                        mutual = "You and " + this.state.users[0].userName + " Mutually Follow each other"
+
+                                    }
+                                }
+                            }
+                        } else {
+                            operation = "Requested"
+                            if (fr.followAccepted) {
+                                operation = "Following"
+                                if (fr.followbackSent) {
+                                    operation = "Accept"
+                                    if (fr.followbackAccepted) {
+                                        operation = "Following"
+                                        mutual = "You and " + this.state.users[0].userName + " Mutually Follow each other"
+
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    return 0
+                })
+            }
+            return this.state.users.map((user, i) => {  //if view 1 user profile
                 return (
                     <div className="active" key={i} style={{ marginTop: '20px', marginLeft: '1%', borderRadius: '50px' }}>
                         <div className="d-flex bd-highlight" style={{ marginTop: '2%' }} >
@@ -167,8 +200,12 @@ class FindFriends extends Component {
                             <div className="user_info">
                                 <button style={{ outlineStyle: 'none', boxShadow: 'none' }} className="button-link" >{user.userName} </button><label style={{ color: 'white', fontSize: '50%' }} >Last Active: 3:30PM</label>
                                 <br />
-                                <label style={{ color: 'yellow' }}>Chats: 23</label>&nbsp;&nbsp;&nbsp;&nbsp;<label style={{ color: 'yellow' }}>    Posts: 9</label>
-                                <button style={{ outlineStyle: 'none', boxShadow: 'none', paddingLeft: '5%' }} value={user.userId} onClick={this.sayHi} className="btn btn-primary" >Say Hi Now</button>
+                                <label className="user_info" style={{ color: 'white' }}>    Posts: 9</label>
+                                <div className="row user_info">
+                                    <button className="btn btn-primary" value={operation} id={user.userId} onClick={this.sendRequest} >{operation}</button>
+                                    &nbsp;<button className="btn btn-primary" value={user.userId} onClick={this.sayHi}>Say Hi</button>
+                                </div>
+                                <label className="user_info" style={{ color: 'white' }}>{mutual}</label>
                             </div>
                         </div>
 
@@ -204,68 +241,6 @@ class FindFriends extends Component {
                                     </a>
                                 </div>
                             </div>
-
-
-                            <div className="row">
-                                <div className="col-lg-4 col-md-4 col-xs-8 thumb">
-                                    <a className="thumbnail" href="google.com" data-image-id="" data-toggle="modal" data-title=""
-                                        data-image="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                                        data-target="#image-gallery" >
-                                        <img className="img-thumbnail"
-                                            src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                                            alt="Another alt text" />
-                                    </a>
-                                </div>
-                                <div className="col-lg-4 col-md-4 col-xs-8 thumb">
-                                    <a className="thumbnail" href="google.com" data-image-id="" data-toggle="modal" data-title=""
-                                        data-image="https://images.pexels.com/photos/158971/pexels-photo-158971.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                                        data-target="#image-gallery" >
-                                        <img className="img-thumbnail"
-                                            src="https://images.pexels.com/photos/158971/pexels-photo-158971.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                                            alt="Another alt text" />
-                                    </a>
-                                </div>
-                                <div className="col-lg-4 col-md-4 col-xs-8 thumb">
-                                    <a className="thumbnail" href="google.com" data-image-id="" data-toggle="modal" data-title=""
-                                        data-image="https://images.pexels.com/photos/305070/pexels-photo-305070.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                                        data-target="#image-gallery">
-                                        <img className="img-thumbnail"
-                                            src="https://images.pexels.com/photos/305070/pexels-photo-305070.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                                            alt="Another alt text" />
-                                    </a>
-                                </div>
-                            </div>
-
-
-                            <div className="row">
-                                <div className="col-lg-4 col-md-4 col-xs-8 thumb">
-                                    <a className="thumbnail" href="google.com" data-image-id="" data-toggle="modal" data-title=""
-                                        data-image="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                                        data-target="#image-gallery" >
-                                        <img className="img-thumbnail"
-                                            src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                                            alt="Another alt text" />
-                                    </a>
-                                </div>
-                                <div className="col-lg-4 col-md-4 col-xs-8 thumb">
-                                    <a className="thumbnail" href="google.com" data-image-id="" data-toggle="modal" data-title=""
-                                        data-image="https://images.pexels.com/photos/158971/pexels-photo-158971.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                                        data-target="#image-gallery" >
-                                        <img className="img-thumbnail"
-                                            src="https://images.pexels.com/photos/158971/pexels-photo-158971.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                                            alt="Another alt text" />
-                                    </a>
-                                </div>
-                                <div className="col-lg-4 col-md-4 col-xs-8 thumb">
-                                    <a className="thumbnail" href="google.com" data-image-id="" data-toggle="modal" data-title=""
-                                        data-image="https://images.pexels.com/photos/305070/pexels-photo-305070.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                                        data-target="#image-gallery">
-                                        <img className="img-thumbnail"
-                                            src="https://images.pexels.com/photos/305070/pexels-photo-305070.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                                            alt="Another alt text" />
-                                    </a>
-                                </div>
-                            </div>
                             <hr style={{ border: '1px dotted yellow' }} />
                         </div>
 
@@ -273,6 +248,51 @@ class FindFriends extends Component {
                 )
             })
         }
+    }
+
+
+    sendRequest(e) {
+        let followInfo = {
+            userId: this.state.userId,
+            requestedTo: e.target.id
+        }
+
+        let operation = e.target.value;
+
+        switch (operation) {
+            case "Follow":
+                alert("Follow Request Sent " + followInfo)
+                // axios.post(`${global.URL}/crud/friendRequest/follow`, followInfo)
+                //     .then(res => {
+                //         if (res.data.sent) {
+                //             alert("Follow request sent")
+                //         } else {
+                //             alert("Failed to send follow request!.")
+                //         }
+                //     })
+                //     .catch(err => {
+                //     })
+                break
+            case "Accept":
+                alert("Follow Accepted")
+                break
+            case "Requested":
+                alert("Unfollowed")
+                break
+            case "Follow Back":
+                alert("Follow Back")
+                break
+            case "Following":
+                alert("Unfollowd")
+                break
+            default:
+                alert("Default")
+
+        }
+
+
+
+
     }
 
     render() {
@@ -286,7 +306,7 @@ class FindFriends extends Component {
                                 <div className="input-group">
                                     <input type="text" placeholder="Search..." onChange={this.searchChange} name="" className="form-control search" />
                                     <div className="input-group-prepend">
-                                        <span className="input-group-text search_btn"><i className="fas fa-search"></i></span>
+                                        <span className="input-group-text search_btn" ><i className="fas fa-search"></i></span>
                                     </div>
                                 </div>
                             </div>

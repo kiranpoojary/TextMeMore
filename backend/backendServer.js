@@ -6,6 +6,7 @@ const AuthRoute = require('./route/authenticator')
 const ChatList = require('./route/chat.router')
 const Random = require('./route/random.chat')
 const Search = require('./route/search.router')
+const CrudUser = require('./route/crud.user.router')
 require('./model/connection')
 
 
@@ -18,6 +19,7 @@ app.use("/register", AuthRoute)
 app.use("/chatList", ChatList)
 app.use("/random", Random)
 app.use("/searchUser", Search)
+app.use("/crud", CrudUser)
 
 app.listen("4000", (err) => {
     if (!err) {
