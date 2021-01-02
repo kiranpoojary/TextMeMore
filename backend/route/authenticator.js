@@ -6,7 +6,6 @@ let userModel = require('../model/users')
 app.use(cors());
 
 router.get("/", (req, res) => {
-    console.log("lolo");
     res.send("Mongoose Database server running.....")
 })
 
@@ -25,7 +24,8 @@ router.post("/register", (req, res) => {
         email: email,
         mobile: mob,
         public: true,
-        logedIn: loged
+        logedIn: loged,
+        lastLogin: "NA"
     }
 
     var userObj = new userModel(userInfo)

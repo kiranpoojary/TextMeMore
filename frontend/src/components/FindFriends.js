@@ -13,7 +13,7 @@ class FindFriends extends Component {
         this.selectUser = this.selectUser.bind(this)
         this.showMoreVisiblity = this.showMoreVisiblity.bind(this)
         this.sayHi = this.sayHi.bind(this)
-        this.sendRequest = this.sendRequest.bind(this)
+        this.followOperartion = this.followOperartion.bind(this)
 
         this.state = {
             userId: '',
@@ -27,8 +27,6 @@ class FindFriends extends Component {
         let query = this.state.searchQ
         let lim = this.state.userLimit
         let logedUserId = this.state.userId
-        console.log(query);
-
         axios.get(`${global.URL}/searchUser`, { params: { searchQry: query, searchLimit: lim, user: logedUserId } })
             .then(response => {
                 this.setState({
@@ -162,7 +160,7 @@ class FindFriends extends Component {
                             if (fr.followAccepted) {
                                 operation = "Follow Back"
                                 if (fr.followbackSent) {
-                                    operation = "Requested"
+                                    operation = "Requested "
                                     if (fr.followbackAccepted) {
                                         operation = "Following"
                                         mutual = "You and " + this.state.users[0].userName + " Mutually Follow each other"
@@ -175,7 +173,7 @@ class FindFriends extends Component {
                             if (fr.followAccepted) {
                                 operation = "Following"
                                 if (fr.followbackSent) {
-                                    operation = "Accept"
+                                    operation = "Accept "
                                     if (fr.followbackAccepted) {
                                         operation = "Following"
                                         mutual = "You and " + this.state.users[0].userName + " Mutually Follow each other"
@@ -202,7 +200,7 @@ class FindFriends extends Component {
                                 <br />
                                 <label className="user_info" style={{ color: 'white' }}>    Posts: 9</label>
                                 <div className="row user_info">
-                                    <button className="btn btn-primary" value={operation} id={user.userId} onClick={this.sendRequest} >{operation}</button>
+                                    <button className="btn btn-primary" value={operation} id={user.userId} onClick={this.followOperartion} >{operation}</button>
                                     &nbsp;<button className="btn btn-primary" value={user.userId} onClick={this.sayHi}>Say Hi</button>
                                 </div>
                                 <label className="user_info" style={{ color: 'white' }}>{mutual}</label>
@@ -251,7 +249,7 @@ class FindFriends extends Component {
     }
 
 
-    sendRequest(e) {
+    followOperartion(e) {
         let followInfo = {
             userId: this.state.userId,
             requestedTo: e.target.id
@@ -260,33 +258,109 @@ class FindFriends extends Component {
         let operation = e.target.value;
 
         switch (operation) {
+
+            //done
             case "Follow":
-                alert("Follow Request Sent " + followInfo)
-                // axios.post(`${global.URL}/crud/friendRequest/follow`, followInfo)
-                //     .then(res => {
-                //         if (res.data.sent) {
-                //             alert("Follow request sent")
-                //         } else {
-                //             alert("Failed to send follow request!.")
-                //         }
-                //     })
-                //     .catch(err => {
-                //     })
+                // alert("Follow Request Sent " + followInfo)
+                axios.post(`${global.URL}/crud/followRequest/send/follow`, followInfo)
+                    .then(res => {
+                        if (res.data.sent) {
+                            alert("Follow request sent")
+                        } else {
+                            alert("Failed to send follow request!.")
+                        }
+                    })
+                    .catch(err => {
+                    })
                 break
-            case "Accept":
-                alert("Follow Accepted")
-                break
+
+            //pending
             case "Requested":
-                alert("Unfollowed")
+                axios.post(`${global.URL}/crud/followRequest/unfollow`, followInfo)
+                    .then(res => {
+                        if (res.data.unfollowed) {
+                            alert("Request canceled")
+                        } else {
+                            alert("Failed to accepted follow request!.")
+                        }
+                    })
+                    .catch(err => {
+                    })
+
                 break
+
+
+            case "Requested ":
+                axios.post(`${global.URL}/crud/followRequest/cancelfollowback`, followInfo)
+                    .then(res => {
+                        if (res.data.cancelfollowback) {
+                            alert("Followback request canceled")
+                        } else {
+                            alert("Failed to accepted follow request!.")
+                        }
+                    })
+                    .catch(err => {
+                    })
+
+                break
+
+
+            case "Accept":
+                axios.post(`${global.URL}/crud/followRequest/accept/follow`, followInfo)
+                    .then(res => {
+                        if (res.data.accepted) {
+                            alert("Follow request accepted")
+                        } else {
+                            alert("Failed to accepted follow request!.")
+                        }
+                    })
+                    .catch(err => {
+                    })
+                break
+
             case "Follow Back":
-                alert("Follow Back")
+                axios.post(`${global.URL}/crud/followRequest/send/followback`, followInfo)
+                    .then(res => {
+
+                        if (res.data.sent) {
+                            alert("Followback request sent")
+                        } else {
+                            alert("Failed in sending followback request!.")
+                        }
+                    })
+                    .catch(err => {
+                    })
                 break
+            case "Accept ":
+                axios.post(`${global.URL}/crud/followRequest/accept/followback`, followInfo)
+                    .then(res => {
+                        if (res.data.accepted) {
+                            alert("Follow request accepted")
+                        } else {
+                            alert("Failed to accepted follow request!.")
+                        }
+                    })
+                    .catch(err => {
+                    })
+                break
+
+
             case "Following":
-                alert("Unfollowd")
+                axios.post(`${global.URL}/crud/followRequest/unfollow`, followInfo)
+                    .then(res => {
+                        if (res.data.unfollowed) {
+                            alert("unfollowed")
+                        } else {
+                            alert("Failed to accepted follow request!.")
+                        }
+                    })
+                    .catch(err => {
+                    })
                 break
+
+            //done
             default:
-                alert("Default")
+                alert("Something Went Wrong!")
 
         }
 

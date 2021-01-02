@@ -23,6 +23,9 @@ const usersSchema = new Schema({
     logedIn: {
         type: Boolean
     },
+    lastLogin: {
+        type: String
+    },
     friends: [{
         userId: String,
         followSent: Boolean,
@@ -30,6 +33,10 @@ const usersSchema = new Schema({
         followbackSent: Boolean,
         followbackAccepted: Boolean,
         inchats: Boolean
+    }],
+    notifications: [{
+        type: String,
+        fromId: String
     }]
 
 })

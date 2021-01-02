@@ -14,7 +14,8 @@ class PrivateChat extends Component {
             chatLists: [],
             chatTexts: [],
             len: 0,
-            msg: ''
+            msg: '',
+            textCount: -7
         }
         this.msgInput = React.createRef()
         this.msgFocus = React.createRef()
@@ -23,6 +24,7 @@ class PrivateChat extends Component {
         this.inputText = this.inputText.bind(this)
         this.userSearch = this.userSearch.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
+        this.loadText = this.loadText.bind(this)
 
 
 
@@ -39,7 +41,7 @@ class PrivateChat extends Component {
 
         let nm = this.state.userId
         let search = this.state.searchId
-        axios.get(`${global.URL}/chatList`, { params: { logedUserId: nm, searchId: search } })
+        axios.get(`${global.URL}/chatList`, { params: { logedUserId: nm, searchId: search, msgLimit: this.state.textCount } })
             .then(response => {
                 this.setState({
                     userId: document.getElementById("chats").name,
@@ -58,7 +60,7 @@ class PrivateChat extends Component {
 
         let nm = this.state.userId
         let search = this.state.searchId
-        axios.get(`${global.URL}/chatList`, { params: { logedUserId: nm, searchId: search } })
+        axios.get(`${global.URL}/chatList`, { params: { logedUserId: nm, searchId: search, msgLimit: this.state.textCount } })
             .then(response => {
                 this.setState({
                     //userId: document.getElementById("chats").name,
@@ -119,6 +121,7 @@ class PrivateChat extends Component {
 
     showChats() {
         return this.state.chatTexts.map((texts, i) => {
+
             if (i === this.state.len) {
                 return texts.chats.map((tx, j) => {
                     if (tx.sender === this.state.userId) {
@@ -148,6 +151,7 @@ class PrivateChat extends Component {
 
                         )
                     }
+
                 })
             } else {
                 return null;
@@ -207,6 +211,12 @@ class PrivateChat extends Component {
         this.msgInput.current.focus()
     }
 
+    loadText() {
+        this.setState({
+            textCount: this.state.textCount - 7
+        })
+    }
+
 
     render() {
 
@@ -260,6 +270,8 @@ class PrivateChat extends Component {
                                     </ul>
                                 </div>
                             </div>
+                            <center> <button style={{ outlineStyle: 'none', boxShadow: 'none', fontSize: "70%", paddingTop: "0%" }} className="button-link" onClick={this.loadText}>Load More...</button></center>
+
                             <div className="card-body msg_card_body">
                                 {
                                     this.showChats()

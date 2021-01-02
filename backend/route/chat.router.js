@@ -9,13 +9,15 @@ let chatListModel = require('../model/chat.list.model')
 router.get("/", (req, res) => {
     const myName = req.query.logedUserId
     const searchId = req.query.searchId
+    const textLimit = req.query.msgLimit
+
     chatListModel.find({ $and: [{ $or: [{ chatMember1: myName }, { chatMember2: myName }], chatMember1: { $regex: '^' + searchId, $options: 'i' } }] }, (err, data) => {
         if (!err) {
             res.status(200).json(data)
         } else {
             res.status(500).json({ "error": err })
         }
-    }).sort({ 'chats._id': -1 }).slice('chats', -7)
+    }).sort({ 'chats._id': -1 }).slice('chats', Number(textLimit))
 
 })
 
