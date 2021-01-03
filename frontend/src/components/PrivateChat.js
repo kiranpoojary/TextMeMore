@@ -159,8 +159,6 @@ class PrivateChat extends Component {
         })
     }
 
-
-
     inputText(e) {
         this.setState({
             msg: e.target.value
@@ -173,8 +171,6 @@ class PrivateChat extends Component {
             searchId: e.target.value
         })
     }
-
-
 
     onSubmit(e) {
 
@@ -191,7 +187,8 @@ class PrivateChat extends Component {
                 if (res.data.sent) {
                     this.setState({
                         msg: '',
-                        len: 0
+                        len: 0,
+                        textCount: - 7
                     })
 
                     this.props.history.push({

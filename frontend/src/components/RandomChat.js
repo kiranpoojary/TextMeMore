@@ -151,7 +151,7 @@ export class RandomChat extends Component {
                                         <span className="online_icon"></span>
                                     </div>
                                     <div className="user_info">
-                                        <span>Random Chats</span>
+                                        <span>Open Chats</span>
                                         <p>Online</p>
                                     </div>
                                     <div className="video_cam">
