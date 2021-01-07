@@ -8,6 +8,7 @@ export class Profile extends Component {
         this.state = {
             uName: null
         }
+
     }
 
 
@@ -26,8 +27,6 @@ export class Profile extends Component {
         return (
 
             <h3>User Profile : {this.state.uName}</h3>
-
-
 
         )
     }

@@ -26,11 +26,6 @@ class PrivateChat extends Component {
         this.onSubmit = this.onSubmit.bind(this)
         this.loadText = this.loadText.bind(this)
 
-
-
-
-
-
     }
 
 
@@ -38,7 +33,6 @@ class PrivateChat extends Component {
 
 
     componentDidMount() {
-
         let nm = this.state.userId
         let search = this.state.searchId
         axios.get(`${global.URL}/chatList`, { params: { logedUserId: nm, searchId: search, msgLimit: this.state.textCount } })

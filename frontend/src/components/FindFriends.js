@@ -148,6 +148,7 @@ class FindFriends extends Component {
                         </div>
                     </div >
                 )
+
             })
         } else {
             var operation = "Follow"

@@ -19,7 +19,17 @@ router.get("/", (req, res) => {
             }).limit(lim)
 })
 
+router.get("/notifications", (req, res) => {
+            userModel.find({ userId: req.query.userId }, (err, data) => {
 
+                        if (!err) {
+
+                                    res.status(200).json(data)
+                        } else {
+                                    res.status(500).json({ "error": err })
+                        }
+            })
+})
 
 
 module.exports = router

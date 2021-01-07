@@ -35,8 +35,12 @@ const usersSchema = new Schema({
         inchats: Boolean
     }],
     notifications: [{
-        type: String,
-        fromId: String
+        notiType: String,
+        fromId: String,
+        time: String,
+        seen: {
+            type: Boolean, default: false
+        }
     }]
 
 })

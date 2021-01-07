@@ -24,10 +24,10 @@ class Navbar extends Component {
             activeRandom: 'nav-link',
             widthHeightActive: "25%",
             widthHeightFind: "25%",
-            widthHeightChat: "15%",
-            widthHeightGroup: "15%",
-            widthHeightNotif: "15%",
-            widthHeightUser: "15%",
+            widthHeightChat: "10%",
+            widthHeightGroup: "10%",
+            widthHeightNotif: "10%",
+            widthHeightUser: "10%",
 
             UId: this.props.UId
         }
@@ -41,49 +41,49 @@ class Navbar extends Component {
             case "find":
                 this.setState({
                     widthHeightFind: this.state.widthHeightActive,
-                    widthHeightChat: "15%",
-                    widthHeightGroup: "15%",
-                    widthHeightNotif: "15%",
-                    widthHeightUser: "15%",
+                    widthHeightChat: "10%",
+                    widthHeightGroup: "10%",
+                    widthHeightNotif: "10%",
+                    widthHeightUser: "10%",
                 })
                 break
             case "chat":
                 this.setState({
 
-                    widthHeightFind: "15%",
+                    widthHeightFind: "10%",
                     widthHeightChat: this.state.widthHeightActive,
-                    widthHeightGroup: "15%",
-                    widthHeightNotif: "15%",
-                    widthHeightUser: "15%",
+                    widthHeightGroup: "10%",
+                    widthHeightNotif: "10%",
+                    widthHeightUser: "10%",
                 })
                 break
             case "group":
                 this.setState({
 
-                    widthHeightFind: "15%",
-                    widthHeightChat: "15%",
+                    widthHeightFind: "10%",
+                    widthHeightChat: "10%",
                     widthHeightGroup: this.state.widthHeightActive,
-                    widthHeightNotif: "15%",
-                    widthHeightUser: "15%",
+                    widthHeightNotif: "10%",
+                    widthHeightUser: "10%",
                 })
                 break
             case "notif":
                 this.setState({
 
-                    widthHeightFind: "15%",
-                    widthHeightChat: "15%",
-                    widthHeightGroup: "15%",
+                    widthHeightFind: "10%",
+                    widthHeightChat: "10%",
+                    widthHeightGroup: "10%",
                     widthHeightNotif: this.state.widthHeightActive,
-                    widthHeightUser: "15%",
+                    widthHeightUser: "10%",
                 })
                 break
             case "user":
                 this.setState({
 
-                    widthHeightFind: "15%",
-                    widthHeightChat: "15%",
-                    widthHeightGroup: "15%",
-                    widthHeightNotif: "15%",
+                    widthHeightFind: "10%",
+                    widthHeightChat: "10%",
+                    widthHeightGroup: "10%",
+                    widthHeightNotif: "10%",
                     widthHeightUser: this.state.widthHeightActive
                 })
                 break
@@ -109,13 +109,13 @@ class Navbar extends Component {
                                     <Link to="/find" id="find" onClick={() => this.clicked("find")} name={this.state.UId} className={this.state.activePosts}> <img src={find} width={this.state.widthHeightFind} height={this.state.widthHeightFind} alt="Img not found" /></Link>
                                 </li>
                                 <li className="navbar-item">
-                                    <Link to="/chats" id="chats" onClick={() => this.clicked("chat")} name={this.state.UId} className={this.state.activeChats}><img src={chat} width={this.state.widthHeightChat} height={this.state.widthHeightChat} alt="Img not found" /></Link>
+                                    <Link to="/chats" id="chats" style={{ color: "green", fontSize: "110%" }} onClick={() => this.clicked("chat")} name={this.state.UId} className={this.state.activeChats}><img src={chat} width={this.state.widthHeightChat} height={this.state.widthHeightChat} alt="Img not found" />3</Link>
                                 </li>
                                 <li className="navbar-item ">
-                                    <Link to="/random" id="profile" onClick={() => this.clicked("group")} name={this.state.UId} className={this.state.activeRandom}><img src={group} width={this.state.widthHeightGroup} height={this.state.widthHeightGroup} alt="Img not found" /></Link>
+                                    <Link to="/random" id="profile" style={{ color: "green", fontSize: "110%" }} onClick={() => this.clicked("group")} name={this.state.UId} className={this.state.activeRandom}><img src={group} width={this.state.widthHeightGroup} height={this.state.widthHeightGroup} alt="Img not found" />99+</Link>
                                 </li>
                                 <li className="navbar-item ">
-                                    <Link to="/notifications" id="notif" onClick={() => this.clicked("notif")} name={this.state.UId} className={this.state.activeNotification}><img src={notif} width={this.state.widthHeightNotif} height={this.state.widthHeightNotif} alt="Img not found" /></Link>
+                                    <Link to="/notifications" id="notif" style={{ color: "green", fontSize: "110%" }} onClick={() => this.clicked("notif")} name={this.state.UId} className={this.state.activeNotification}><img src={notif} width={this.state.widthHeightNotif} height={this.state.widthHeightNotif} alt="Img not found" />9+</Link>
                                 </li>
                                 <li className="navbar-item " >
                                     <Link to="/profile" id="profile" style={{ color: "green", fontSize: "110%" }} onClick={() => this.clicked("user")} name={this.state.UId} className={this.state.activeLogin}><img src={user} width={this.state.widthHeightUser} height={this.state.widthHeightUser} alt="Img not found" />{this.state.UId}</Link>
