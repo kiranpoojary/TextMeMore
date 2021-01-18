@@ -28,6 +28,7 @@ html {
 .card-header {
   border-radius: 15px 15px 0 0 !important;
   border-bottom: 0 !important;
+
 }
 .card-footer {
   border-radius: 0 0 15px 15px !important;
@@ -78,6 +79,7 @@ html {
   color: white !important;
   cursor: pointer;
 }
+
 .contacts {
   list-style: none;
   padding: 0;
@@ -88,7 +90,9 @@ html {
   margin-bottom: 15px !important;
 }
 .active {
+  border-radius: 15px 15px 0 0 !important;
   background-color: rgba(0, 0, 0, 0.3);
+  padding: 2% 2%;
 }
 .user_img {
   height: 70px;
@@ -100,6 +104,14 @@ html {
   width: 40px;
   border: 1.5px solid #f5f6fa;
 }
+
+.user-list {
+  border-radius: 15px 15px 15px 15px !important;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 2% 2%;
+  margin-top: 1px;
+}
+
 .img_cont {
   position: relative;
   height: 70px;
@@ -153,22 +165,24 @@ html {
   background-color: #82ccdd;
   padding: 10px;
   position: relative;
+  max-width: 400px;
 }
 .msg_cotainer_send {
   margin-top: auto;
   margin-bottom: auto;
-  margin-right: 10px;
+  margin-right: -10px;
   border-radius: 25px;
   background-color: #78e08f;
   padding: 10px;
   position: relative;
+  max-width: 400px;
 }
 .msg_time {
-  position: absolute;
   left: 0;
   bottom: -15px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(1, 5, 0, 0.5);
   font-size: 10px;
+  font-weight: 150%;
 }
 .msg_time_send {
   position: absolute;

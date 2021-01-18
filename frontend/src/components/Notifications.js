@@ -4,15 +4,17 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
+
 class Notifications extends Component {
     constructor(props) {
         super(props)
         this.state = {
             userId: "",
             userData: [],
-            limit: 1
+            limit: 2
         }
         this.showNotifications = this.showNotifications.bind(this)
+        this.notiSelected = this.notiSelected.bind(this)
     }
 
 
@@ -41,12 +43,25 @@ class Notifications extends Component {
             )
 
     }
+
+
     showNotifications() {
         var msg
         return this.state.userData.map((user, i) => {
+            var totalNoti = Object.keys(user.notifications).length
+
+            var start = totalNoti - 1
+            var till = totalNoti - this.state.limit
             return user.notifications.map((noti, j) => {
-                if (j < this.state.limit) {
-                    switch (noti.notiType) {
+
+                if (start >= till) {
+                    var type = user.notifications[start].notiType
+                    var from = user.notifications[start].fromId
+                    var time = user.notifications[start].time
+                    // var seen = Boolean(user.notifications[start].seen)
+                    start--
+
+                    switch (type) {
                         case "request":
                             msg = " requested to follow you."
                             break
@@ -57,7 +72,7 @@ class Notifications extends Component {
                             msg = "Something went wrong"
                             break
                     }
-                    var d1 = new Date(noti.time)
+                    var d1 = new Date(time)
                     var d2 = new Date()
                     var diff = d2 - d1
                     var min = Math.floor(diff / 60e3)
@@ -70,122 +85,20 @@ class Notifications extends Component {
                             timeString = min + " minutes ago"
                         } else {
                             if (hr > 0 && hr < 24) {
-                                switch (hr) {
-                                    case 1:
-                                        timeString = hr + " hour ago"
-                                        break
-                                    case 2:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 3:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 4:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 5:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 6:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 7:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 8:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 9:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 10:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 11:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 12:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 13:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 14:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 15:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 16:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 17:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 18:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 19:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 20:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 21:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 22:
-                                        timeString = hr + " hours ago"
-                                        break
-                                    case 23:
-                                        timeString = hr + " hours ago"
-                                        break
+                                timeString = hr + " hour ago"
 
-                                    default:
-                                        break
-
-                                }
                             } else {
                                 var days = Math.floor(hr / 24)
-                                switch (days) {
-                                    case 1:
-                                        timeString = days + " day ago"
-                                        break
-                                    case 2:
-                                        timeString = days + " days ago"
-                                        break
-                                    case 3:
-                                        timeString = days + " days ago"
-                                        break
-                                    case 4:
-                                        timeString = days + " days ago"
-                                        break
-                                    case 5:
-                                        timeString = days + " days ago"
-                                        break
-                                    case 6:
-                                        timeString = days + " days ago"
-                                        break
-                                    case 7:
-                                        timeString = days + " days ago"
-                                        break
-                                    case 8:
-                                        timeString = days + " days ago"
-                                        break
-                                    case 9:
-                                        timeString = days + " days ago"
-                                        break
-                                    case 10:
-                                        timeString = days + " days ago"
-                                        break
-                                    default:
-                                        timeString = "10+ days ago"
+                                if (days <= 9) {
+                                    timeString = (days === 1) ? days + " day ago" : days + " days ago"
+                                } else {
+                                    timeString = "9+ days ago"
                                 }
                             }
                         }
 
                     return (
-                        <div className="active" key={j} style={{ borderRadius: "15px", paddingTop: "3%" }}>
+                        <div className="user-list" key={j} >
 
                             <div className="d-flex bd-highlight" >
                                 <div className="img_cont" >
@@ -193,19 +106,24 @@ class Notifications extends Component {
                                     <span className="online_icon offline"></span>
                                 </div>
                                 <div className="user_info">
-                                    <button style={{ outlineStyle: 'none', boxShadow: 'none' }} className="button-link" value={noti.fromId} id={j}>{noti.fromId + msg}</button>
+                                    <button style={{ outlineStyle: 'none', boxShadow: 'none' }} onClick={this.notiSelected} className="button-link" value={from} id={j}>{from + msg}</button>
                                     <label style={{ color: 'white', fontSize: "70%" }}>{timeString}</label>
                                 </div>
                             </div>
-                            <hr />
                         </div >
                     )
+
                 }
-                return ""
+
+
+                return null
+
             })
-
-
         })
+    }
+
+    notiSelected(e) {
+
     }
 
 
@@ -225,7 +143,7 @@ class Notifications extends Component {
                                 {
                                     this.showNotifications()
                                 }
-                                <button onClick={() => { this.setState({ limit: this.state.limit + 1 }) }} style={{ outlineStyle: 'none', boxShadow: 'none', fontSize: '80%' }} className="button-link">Load More...</button>
+                                <button onClick={() => { this.setState({ limit: this.state.limit + 2 }) }} style={{ outlineStyle: 'none', boxShadow: 'none', fontSize: '80%' }} className="button-link">Load More...</button>
                             </div>
 
                         </div>

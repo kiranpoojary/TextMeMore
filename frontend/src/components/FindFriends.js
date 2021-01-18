@@ -6,7 +6,7 @@ require("../pages/confidentialDataStore")
 class FindFriends extends Component {
     constructor(props) {
         super(props)
-
+        this.searchFocus = React.createRef()
         this.showUsers = this.showUsers.bind(this)
         this.showMore = this.showMore.bind(this)
         this.searchChange = this.searchChange.bind(this)
@@ -37,6 +37,7 @@ class FindFriends extends Component {
             .catch((err) => {
                 console.log(err);
             })
+        this.searchFocus.current.focus()
     }
 
     componentDidUpdate() {
@@ -135,9 +136,9 @@ class FindFriends extends Component {
         if (this.state.userLimit !== 1) {    //if search text
             return this.state.users.map((user, i) => {
                 return (
-                    <div className="active" key={i} style={{ marginTop: '20px', marginLeft: '1%', borderRadius: '50px', height: '17%' }}>
-                        <div className="d-flex bd-highlight" style={{ marginTop: '2%' }} >
-                            <div className="img_cont" style={{ marginLeft: '15%', marginTop: '2%' }}>
+                    <div className="user-list" key={i} >
+                        <div className="d-flex bd-highlight"  >
+                            <div className="img_cont" style={{ marginLeft: '10%' }}>
                                 <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" alt="No" className="rounded-circle user_img" />
                                 <span className="online_icon offline"></span>
                             </div>
@@ -379,7 +380,7 @@ class FindFriends extends Component {
                         <div className="card">
                             <div className="card-header msg_head active">
                                 <div className="input-group">
-                                    <input type="text" placeholder="Search..." onChange={this.searchChange} name="" className="form-control search" />
+                                    <input type="text" placeholder="Search..." onChange={this.searchChange} ref={this.searchFocus} name="" className="form-control search" />
                                     <div className="input-group-prepend">
                                         <span className="input-group-text search_btn" ><i className="fas fa-search"></i></span>
                                     </div>

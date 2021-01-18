@@ -21,7 +21,7 @@ export class RandomChat extends Component {
     }
 
 
-    componentDidMount() {
+    componentDidMount(e) {
 
         axios.get(`${global.URL}/random`)
             .then(response => {
@@ -65,15 +65,38 @@ export class RandomChat extends Component {
 
     recentChats() {
         return this.state.chats.map((currentChat, i) => {
+
+            //time manipulation
+            var textDay = new Date(currentChat.textTiming)  //text day
+            var yesterday = new Date(Date.now() - 864e5);   //yesterday =-24hrs
+            var monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            var h = textDay.getHours()
+            var ampm = (h < 12) ? "AM" : "PM"       //AM or PM
+            h = (h > 12) ? h - 12 : h               //to 12hr format
+            h = (h < 10) ? "0" + h : h              //concat 0 to hr if <10
+            var min = textDay.getMinutes()
+            min = (min < 10) ? "0" + min : min      //concat 0 to minute if <10
+            var timeString = h + ":" + min + " " + ampm //final time
+            if (yesterday.getDate() === textDay.getDate()) {
+                timeString = "yest " + timeString
+            } else {
+                if (textDay < yesterday) {
+                    timeString = monthArray[textDay.getMonth()] + " " + textDay.getDate() + " " + timeString
+                }
+            }
+
+
+
             if (currentChat.sender === this.state.userId) {
                 return (
                     <div key={i} className="d-flex justify-content-end mb-4">
-                        <div className="img_cont_msg">
-                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" className="rounded-circle user_img_msg" alt="no" />
-                        </div>
-                        <div className="msg_cotainer_send">
-                            &nbsp;&nbsp;{currentChat.msg}&nbsp;&nbsp;&nbsp;
-                            <span className="msg_time">{currentChat.textTiming}</span>
+
+                        <div>
+                            <div className="msg_cotainer_send">
+                                &nbsp;&nbsp;{currentChat.msg}&nbsp;&nbsp;&nbsp;
+                             <span className="msg_time">{timeString}</span>
+                            </div>
+
                         </div>
                     </div>
 
@@ -87,7 +110,7 @@ export class RandomChat extends Component {
                         </div>
                         <div className="msg_cotainer" >
                             {currentChat.msg}&nbsp;&nbsp;&nbsp;
-                            <span className="msg_time">{currentChat.textTiming}</span>
+                            <span className="msg_time">{timeString}</span>
                         </div>
                     </div>
                 )
@@ -144,7 +167,7 @@ export class RandomChat extends Component {
                 <div className="row justify-content-center h-100">
                     <div className="col-md-8 col-xl-8 chat">
                         <div className="card">
-                            <div className="card-header msg_head active">
+                            <div className="active">
                                 <div className="d-flex bd-highlight">
                                     <div className="img_cont">
                                         <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" className="rounded-circle user_img" alt="no" />

@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
     const searchId = req.query.searchId
     const textLimit = req.query.msgLimit
 
-    chatListModel.find({ $and: [{ $or: [{ chatMember1: myName }, { chatMember2: myName }], chatMember1: { $regex: '^' + searchId, $options: 'i' } }] }, (err, data) => {
+    chatListModel.find({ $or: [{ chatMember1: myName, chatMember2: { $regex: '^' + searchId, $options: 'i' } }, { chatMember2: myName, chatMember1: { $regex: '^' + searchId, $options: 'i' } }] }, (err, data) => {
         if (!err) {
             res.status(200).json(data)
         } else {
@@ -21,19 +21,14 @@ router.get("/", (req, res) => {
 
 })
 
-
-
-
 router.post("/", (req, res) => {
     const member1 = req.body.member1
     const member2 = req.body.member2
     const msg = req.body.msg
     const sender = req.body.sender
-    var time = new Date();
-    const textTime = time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+    var d = new Date();
+    var textTime = d.toISOString()
     const seen = false
-
-
     chatListModel.countDocuments({ $or: [{ chatMember1: member1, chatMember2: member2 }, { chatMember1: member2, chatMember2: member1 }] }, (err, count) => {
         if (!err) {
             if (count == 0) {

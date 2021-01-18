@@ -57,7 +57,7 @@ class PrivateChat extends Component {
         axios.get(`${global.URL}/chatList`, { params: { logedUserId: nm, searchId: search, msgLimit: this.state.textCount } })
             .then(response => {
                 this.setState({
-                    //userId: document.getElementById("chats").name,
+                    userId: document.getElementById("chats").name,
                     chatLists: response.data,
                     chatTexts: response.data,
                     chatWith: (response.data[this.state.len].chatMember1 === document.getElementById("chats").name) ? response.data[this.state.len].chatMember2 : response.data[this.state.len].chatMember1
@@ -67,7 +67,7 @@ class PrivateChat extends Component {
             .catch((err) => {
                 console.log(err);
             })
-        //this.msgInput.current.focus()
+
 
     }
 
@@ -85,7 +85,7 @@ class PrivateChat extends Component {
         let lastMsg
         let sender
         return this.state.chatLists.map((currentChat, i) => {
-            let len, time
+            let len
             len = Object.keys(currentChat.chats).length
             len = len - 1
             lastMsg = currentChat.chats[len].message.substring(0, 18);
@@ -93,10 +93,28 @@ class PrivateChat extends Component {
                 lastMsg += "..."
             }
             sender = currentChat.chats[len].sender
-            time = currentChat.chats[len].textTime
+
+            //time manipulation
+            var textDay = new Date(currentChat.chats[len].textTime)  //text day
+            var yesterday = new Date(Date.now() - 864e5);   //yesterday =-24hrs
+            var monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            var h = textDay.getHours()
+            var ampm = (h < 12) ? "AM" : "PM"       //AM or PM
+            h = (h > 12) ? h - 12 : h               //to 12hr format
+            h = (h < 10) ? "0" + h : h              //concat 0 to hr if <10
+            var min = textDay.getMinutes()
+            min = (min < 10) ? "0" + min : min      //concat 0 to minute if <10
+            var timeString = h + ":" + min + " " + ampm //final time
+            if (yesterday.getDate() === textDay.getDate()) {
+                timeString = "yest " + timeString
+            } else {
+                if (textDay < yesterday) {
+                    timeString = monthArray[textDay.getMonth()] + " " + textDay.getDate() + " " + timeString
+                }
+            }
 
             return (
-                <div className="active" key={currentChat.chats[len]._id} style={{ marginTop: '10px' }}>
+                <div className="user-list" key={currentChat.chats[len]._id} >
                     <div className="d-flex bd-highlight" >
                         <div className="img_cont">
                             <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" alt="No" className="rounded-circle user_img" />
@@ -105,7 +123,7 @@ class PrivateChat extends Component {
                         <div className="user_info">
                             <button style={{ outlineStyle: 'none', boxShadow: 'none' }} className="button-link" value={i} id={i} onClick={() => this.setState({ len: i })}>{(currentChat.chatMember1 === this.state.userId ? currentChat.chatMember2 : currentChat.chatMember1)}</button>
                             <br /><span style={{ color: 'white' }}>{(sender === this.state.userId) ? "you: " : sender + ": "}{lastMsg}</span>
-                            <br /><label style={{ color: 'white', paddingRight: '4%', fontSize: '50%' }} >{time}</label>
+                            <br /><label style={{ color: 'white', paddingRight: '4%', fontSize: '50%' }} >{timeString}</label>
                         </div>
                     </div>
                 </div >
@@ -118,15 +136,33 @@ class PrivateChat extends Component {
 
             if (i === this.state.len) {
                 return texts.chats.map((tx, j) => {
+
+                    //time manipulation
+                    var textDay = new Date(tx.textTime)  //text day
+                    var yesterday = new Date(Date.now() - 864e5);   //yesterday =-24hrs
+                    var monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+                    var h = textDay.getHours()
+                    var ampm = (h < 12) ? "AM" : "PM"       //AM or PM
+                    h = (h > 12) ? h - 12 : h               //to 12hr format
+                    h = (h < 10) ? "0" + h : h              //concat 0 to hr if <10
+                    var min = textDay.getMinutes()
+                    min = (min < 10) ? "0" + min : min      //concat 0 to minute if <10
+                    var timeString = h + ":" + min + " " + ampm //final time
+                    if (yesterday.getDate() === textDay.getDate()) {
+                        timeString = "yest " + timeString
+                    } else {
+                        if (textDay < yesterday) {
+                            timeString = monthArray[textDay.getMonth()] + " " + textDay.getDate() + " " + timeString
+                        }
+                    }
+
                     if (tx.sender === this.state.userId) {
                         return (
                             <div key={j} className="d-flex justify-content-end mb-4">
-                                <div className="img_cont_msg">
-                                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" className="rounded-circle user_img_msg" alt="no" />
-                                </div>
-                                <div className="msg_cotainer" >
-                                    {tx.message}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span className="msg_time">{tx.textTime}</span>
+
+                                <div className="msg_cotainer_send" >
+                                    &nbsp;&nbsp;{tx.message}&nbsp;&nbsp;
+                                    <span className="msg_time">{timeString}</span>
                                 </div>
                             </div>
                         )
@@ -136,16 +172,13 @@ class PrivateChat extends Component {
                                 <div className="img_cont_msg">
                                     <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" className="rounded-circle user_img_msg" alt="no" />
                                 </div>
-                                <div className="msg_cotainer_send" >
+                                <div className="msg_cotainer" >
                                     {tx.message}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span className="msg_time">{tx.textTime}</span>
+                                    <span className="msg_time">{timeString}</span>
                                 </div>
                             </div>
-
-
                         )
                     }
-
                 })
             } else {
                 return null;
@@ -164,6 +197,7 @@ class PrivateChat extends Component {
         this.setState({
             searchId: e.target.value
         })
+
     }
 
     onSubmit(e) {
@@ -225,18 +259,18 @@ class PrivateChat extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="card-body contacts_body">
+                            <div className="contacts_body">
                                 {
                                     this.showList()
                                 }
                             </div>
                             <div>
                             </div>
-                            <div className="card-footer"></div>
+
                         </div></div>
-                    <div className="col-md-8 col-xl-6 chat">
+                    <div className="col-md-8 col-xl-6 chat ">
                         <div className="card ">
-                            <div className="card-header msg_head active">
+                            <div className=" active">
                                 <div className="d-flex bd-highlight ">
                                     <div className="img_cont">
                                         <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" className="rounded-circle user_img" alt="no" />

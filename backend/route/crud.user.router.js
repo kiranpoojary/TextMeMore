@@ -159,10 +159,6 @@ router.post("/followRequest/unfollow", (req, res) => {
 function notify(userId, notifyTo, type) {
             var d = new Date();
             var dateString = d.toISOString()
-            // d2 = new Date(dateString)
-            // console.log(d2.getDate() + "-" + (Number(d2.getMonth()) + 1) + "-" + d2.getFullYear());
-            // console.log(d2.getHours() + ":" + d2.getMinutes() + ":" + d2.getSeconds());
-
             const notiInfo = { $push: { notifications: { notiType: type, fromId: userId, time: dateString } } }
             userModel.updateOne({ userId: notifyTo }, notiInfo, { useFindAndModify: false, upsert: true, new: true }, (err, doc) => {
                         if (!err) {

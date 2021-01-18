@@ -4,9 +4,20 @@ const cors = require('cors')
 const router = express.Router()
 let userModel = require('../model/users')
 app.use(cors());
+const GridFsStorage = require('multer-gridfs-storage');
 
 router.get("/", (req, res) => {
     res.send("Mongoose Database server running.....")
+})
+
+router.get('/image', (req, res, next) => {
+    res.status(200).json({ msg: "fine" })
+})
+
+router.post('/image', (req, res) => {
+    console.log(req.body.a + " " + req.body.b);
+    res.status(200).json({ num1: req.body.a })
+
 })
 
 router.post("/register", (req, res) => {
@@ -37,7 +48,6 @@ router.post("/register", (req, res) => {
             res.status(500).json({ registered: false })
         }
     })
-
 })
 
 
